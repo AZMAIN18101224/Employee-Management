@@ -23,9 +23,13 @@
           </div>
     </div>
     <div class="position-relative">
-        <div class="position-absolute top-100 end-0">
+        <div class="position-absolute top-0 end-0">
             <a href="/employees/{{ $employee->id }}/edit" type="submit"
-                class="btn btn-primary btn-sm">Edit</a>
+                class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+        </div>
+        <div class="position-absolute top-100 end-0">
+            <a href="/employees" type="submit"
+                class="btn btn-dark .btn-lg"><i class="bi bi-arrow-left p-2"></i></a>
         </div>
     </div>
 @endsection

@@ -3,6 +3,13 @@
 @section('main-layout')
     <h1>Edit Emplyee Information</h1>
 
+    @if (Session::has('message'))
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <form method="post" action="/employees/{{ $employee->id }}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')

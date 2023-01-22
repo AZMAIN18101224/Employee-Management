@@ -15,9 +15,15 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::all();
+        $search = $request['search'] ?? "";
+        if ($search != ""){
+            $employees = Employee::where('name', 'LIKE', "%$search%")->orWhere('email', 'LIKE', "%$search%")->get();
+        }
+        else{
+            $employees = Employee::paginate(5);
+        }
 
         return view('employees.index', compact('employees'));
     }
@@ -41,9 +47,22 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         // dd($request->all);
-        $file = $request->file('image');
-        $fileName = $file->getClientOriginalName();
-        $path = $file->storeAs('images', $fileName, 'public');
+
+        if ($request->image) {
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $path = $file->storeAs('images', $fileName, 'public');
+        }
+
+        // validate will check if all the parameters are valid or not (Validation)
+        $data = $request->validate(([
+            'name' => 'required|unique:employees|max:255',
+            'position' => 'required|max:255',
+            'email' => 'required|email|unique:employees|max:255',
+            'phone' => 'required|unique:employees|max:255',
+            'blood' => 'required',
+            'image' => 'required'
+        ]));
 
         $data = [
             'name' => $request->name,
@@ -53,9 +72,10 @@ class EmployeeController extends Controller
             'blood' => $request->blood,
             'image' => $path,
         ];
+        // dd($data);
 
         Employee::create($data);
-        return redirect('/employees/create')->with('flash_message', 'Employee Added Successfully!');
+        return redirect('/employees/create')->with('message', 'Employee Added Successfully!');
     }
 
     /**
@@ -66,6 +86,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+
         return view('employees.show', compact('employee'));
     }
 
@@ -93,8 +114,7 @@ class EmployeeController extends Controller
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName();
             $path = $file->storeAs('images', $fileName, 'public');
-        }
-        else{
+        } else {
             $path = $employee->image;
         }
 
@@ -110,7 +130,7 @@ class EmployeeController extends Controller
         // $employee->update($data);
         Employee::where('id', $employee->id)->update($data);
 
-        return redirect('/employees');
+        return redirect('/employees')->with('message', 'Information Updated Successfully!');
     }
 
     /**
@@ -123,6 +143,6 @@ class EmployeeController extends Controller
     {
         $employee->delete();
 
-        return redirect('/employees');
+        return redirect('/employees')->with('message', 'Deleted Successfully!');
     }
 }
