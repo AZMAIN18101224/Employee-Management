@@ -25,7 +25,7 @@
     <div class="position-relative">
         <div class="position-absolute top-0 end-0">
             <a href="/employees/{{ $employee->id }}/edit" type="submit"
-                class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+                class="btn btn-transparent btn-lr"><i class="bi bi-pencil-square"></i></a>
         </div>
         <div class="position-absolute top-100 end-0">
             <a href="/employees" type="submit"

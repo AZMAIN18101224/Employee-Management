@@ -48,10 +48,11 @@
             <label for="exampleInputEmail1" class="form-label">Blood Group:</label>
             <select name="blood" value="{{ old('blood') }}" class="form-select" aria-label="Default select example">
                 <option name="blood" value="A+">A+</option>
-                <option name="blood" value="B+">B+</option>
                 <option name="blood" value="A-">A-</option>
+                <option name="blood" value="B+">B+</option>
                 <option name="blood" value="B-">B-</option>
-                <option name="blood" value="AB">AB</option>
+                <option name="blood" value="AB+">AB+</option>
+                <option name="blood" value="AB-">AB-</option>
                 <option name="blood" value="O+">O+</option>
                 <option name="blood" value="O-">O-</option>
             </select>

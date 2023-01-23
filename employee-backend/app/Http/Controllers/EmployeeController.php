@@ -10,6 +10,7 @@ use function GuzzleHttp\Promise\all;
 
 class EmployeeController extends Controller
 {
+    public $search = " ";
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +19,10 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $search = $request['search'] ?? "";
-        if ($search != ""){
-            $employees = Employee::where('name', 'LIKE', "%$search%")->orWhere('email', 'LIKE', "%$search%")->get();
-        }
-        else{
+        if ($search != "") {
+            $employees = Employee::where('name', 'LIKE', "%" . $search . "%")
+                ->orWhere('email','LIKE', "%" . $search . "%")->paginate(5);
+        } else {
             $employees = Employee::paginate(5);
         }
 
